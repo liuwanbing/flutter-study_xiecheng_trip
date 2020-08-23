@@ -30,11 +30,21 @@ class HomeModel {
         bannerList: bannerList,
         subNavList: subNavList,
         gridNav:GridNavModel.fromJson(json['gridNav']),
-      salesBox: SalesBoxModel.fromJson(json['salesBox']),
+        salesBox: SalesBoxModel.fromJson(json['salesBox']),
     );
 
   }
 
+  Map<dynamic,dynamic> toJson(){
+    return {
+      config :config,
+      localNavList:localNavList,
+      bannerList:bannerList,
+      subNavList:subNavList,
+      gridNav:gridNav,
+      salesBox:salesBox,
+    };
+  }
 
 
 }

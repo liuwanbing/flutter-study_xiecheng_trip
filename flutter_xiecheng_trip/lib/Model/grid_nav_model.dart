@@ -30,12 +30,24 @@ class GridNavItem {
     return GridNavItem(
         startColor: json['startColor'],
         endColor: json['endColor'],
-        mainItem: json['mainItem'],
-        item1: json['item1'],
-        item2: json['item2'],
-        item3: json['item3'],
-        item4: json['item4']
+        mainItem: CommonModel.fromJson(json['mainItem']),
+        item1: CommonModel.fromJson(json['item1']),
+        item2: CommonModel.fromJson(json['item2']),
+        item3: CommonModel.fromJson(json['item3']),
+        item4: CommonModel.fromJson(json['item4']),
     );
 
+  }
+
+  Map<dynamic,dynamic> toJson(){
+    return {
+      startColor :startColor,
+      endColor:endColor,
+      mainItem:mainItem,
+      item1:item1,
+      item2:item2,
+      item3:item3,
+      item4:item4,
+    };
   }
 }
