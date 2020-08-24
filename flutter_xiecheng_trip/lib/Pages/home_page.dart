@@ -1,18 +1,19 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutterxiechengtrip/Dao/home_dao.dart';
+import 'dart:convert';
+
 import 'package:flutterxiechengtrip/Model/home_model.dart';
 
-const APPBAR_SCROLL_OFFSET = 100; //滑动最大高度，超出部分直接设置全透明
+const APPBAR_SCROLL_OFFSET = 100;//滑动最大高度，超出部分直接设置全透明
 
 class HomePage extends StatefulWidget {
   @override
   _HomePage createState() => _HomePage();
+
 }
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<HomePage>{
   List _imageUrls = [
     'http://pages.ctrip.com/commerce/promote/20180718/yxzy/img/640sygd.jpg',
     'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
@@ -20,101 +21,121 @@ class _HomePage extends State<HomePage> {
   ];
 
   double appBarAlpha = 0;
-
   String resultString = "";
 
-  _onScroll(offset) {
+  @override
+  initState(){
+    super.initState();
+    loadData();
+  }
+
+  _onScroll(offset){
     print(offset);
-    double alpha = offset / APPBAR_SCROLL_OFFSET;
-    if (alpha < 0) {
+    double alpha = offset/APPBAR_SCROLL_OFFSET;
+    if(alpha<0){
       alpha = 0;
-    } else if (alpha > 1) {
-      alpha = 1;
+    }else  if(alpha>1){
+      alpha =1;
     }
     setState(() {
       appBarAlpha = alpha;
     });
   }
 
-  @override
-  initState() {
-    super.initState();
-    loadData();
-  }
 
-  loadData() {
-    HomeDao.fetch().then((result) {
+  //两种写法，第一种
+  loadData(){
+    HomeDao.fetch().then((result){
       setState(() {
-        print('result====${result}');
         resultString = json.encode(result);
       });
-    }).catchError((error) {
+    }).catchError((error){
+      print('error==${error}');
       setState(() {
-        print('error====${error}');
-        resultString = json.encode(error);
-      });
+        resultString  = error.toString();
+       });
     });
 
   }
 
+  //第二种
+//  loadData() async{
+//    try{
+//      HomeModel model = await HomeDao.fetch();
+//      setState(() {
+//        resultString = json.encode(model.config);
+//      });
+//    }catch (e){
+//      setState(() {
+//        resultString = e.toString();
+//      });
+//    }
+//
+//  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
+      body: Stack(
+        children: <Widget>[
+          MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
 
-            //监听listView滚动 NotificationListener
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification notification) {
-                if (notification is ScrollUpdateNotification &&
-                    notification.depth == 0) {
-                  _onScroll(notification.metrics.pixels);
-                }
-                return true;
-              },
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    height: 160,
-                    child: Swiper(
-                      itemCount: _imageUrls.length,
-                      autoplay: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image.network(
-                          _imageUrls[index],
-                          fit: BoxFit.fill,
-                        );
-                      },
-                      pagination: SwiperPagination(), //指示器
+              //监听listView滚动 NotificationListener
+              child: NotificationListener<ScrollNotification>(
+
+                onNotification: (ScrollNotification notification){
+                  if(notification is ScrollUpdateNotification && notification.depth == 0){
+                    _onScroll(notification.metrics.pixels);
+                  }
+                  return true;
+                },
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      height: 160,
+                      child: Swiper(
+                        itemCount: _imageUrls.length,
+                        autoplay: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Image.network(
+                            _imageUrls[index],
+                            fit: BoxFit.fill,
+                          );
+                        },
+                        pagination: SwiperPagination(), //指示器
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 800,
-                    child: ListTile(
-                      title: Text('resultString${resultString}'),
-                    ),
-                  )
-                ],
-              ),
-            )),
-        //改变透明
-        Opacity(
-          opacity: appBarAlpha,
-          child: Container(
-            height: 80,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Text('首页'),
+                    Container(
+                      height: 800,
+                      child: ListTile(title: Text(resultString),),
+                    )
+
+                  ],
+                ),
+
+              )
+
+          ),
+          //改变透明
+          Opacity(
+            opacity: appBarAlpha,
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(color: Colors.white),
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text('首页'),
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    ));
+        ],
+      )
+
+    );
   }
 }
