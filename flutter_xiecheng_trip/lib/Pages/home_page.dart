@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutterxiechengtrip/Dao/home_dao.dart';
+import 'dart:convert';
+
+import 'package:flutterxiechengtrip/Model/home_model.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;//滑动最大高度，超出部分直接设置全透明
 
@@ -17,6 +21,13 @@ class _HomePage extends State<HomePage>{
   ];
 
   double appBarAlpha = 0;
+  String resultString = "";
+
+  @override
+  initState(){
+    super.initState();
+    loadData();
+  }
 
   _onScroll(offset){
     print(offset);
@@ -30,6 +41,39 @@ class _HomePage extends State<HomePage>{
       appBarAlpha = alpha;
     });
   }
+
+
+  //两种写法，第一种
+  loadData(){
+    HomeDao.fetch().then((result){
+      setState(() {
+        resultString = json.encode(result);
+      });
+    }).catchError((error){
+      print('error==${error}');
+      setState(() {
+        resultString  = error.toString();
+       });
+    });
+
+  }
+
+  //第二种
+//  loadData() async{
+//    try{
+//      HomeModel model = await HomeDao.fetch();
+//      setState(() {
+//        resultString = json.encode(model.config);
+//      });
+//    }catch (e){
+//      setState(() {
+//        resultString = e.toString();
+//      });
+//    }
+//
+//  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +110,7 @@ class _HomePage extends State<HomePage>{
                     ),
                     Container(
                       height: 800,
-                      child: ListTile(title: Text('hah'),),
+                      child: ListTile(title: Text(resultString),),
                     )
 
                   ],
