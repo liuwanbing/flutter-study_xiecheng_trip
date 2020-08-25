@@ -4,6 +4,9 @@ import 'package:flutterxiechengtrip/Dao/home_dao.dart';
 import 'dart:convert';
 
 import 'package:flutterxiechengtrip/Model/home_model.dart';
+import 'package:flutterxiechengtrip/Model/local_navlist_model.dart';
+import 'package:flutterxiechengtrip/Widget/grid_nav.dart';
+import 'package:flutterxiechengtrip/Widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;//滑动最大高度，超出部分直接设置全透明
 
@@ -22,6 +25,7 @@ class _HomePage extends State<HomePage>{
 
   double appBarAlpha = 0;
   String resultString = "";
+  List<CommonModel> localNavList = [];
 
   @override
   initState(){
@@ -43,40 +47,39 @@ class _HomePage extends State<HomePage>{
   }
 
 
-  //两种写法，第一种
-  loadData(){
-    HomeDao.fetch().then((result){
-      setState(() {
-        resultString = json.encode(result);
-      });
-    }).catchError((error){
-      print('error==${error}');
-      setState(() {
-        resultString  = error.toString();
-       });
-    });
-
-  }
-
-  //第二种
-//  loadData() async{
-//    try{
-//      HomeModel model = await HomeDao.fetch();
+//  //两种写法，第一种
+//  loadData(){
+//    HomeDao.fetch().then((result){
 //      setState(() {
-//        resultString = json.encode(model.config);
+//        resultString = json.encode(result);
 //      });
-//    }catch (e){
+//    }).catchError((error){
+//      print('error==${error}');
 //      setState(() {
-//        resultString = e.toString();
-//      });
-//    }
+//        resultString  = error.toString();
+//       });
+//    });
 //
 //  }
+
+//  第二种
+  loadData() async{
+    try{
+      HomeModel model = await HomeDao.fetch();
+      setState(() {
+        localNavList = model.localNavList;
+      });
+    }catch (e){
+      print(e);
+    }
+
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff2f2fa),
       body: Stack(
         children: <Widget>[
           MediaQuery.removePadding(
@@ -94,6 +97,7 @@ class _HomePage extends State<HomePage>{
                 },
                 child: ListView(
                   children: <Widget>[
+                    //轮播图
                     Container(
                       height: 160,
                       child: Swiper(
@@ -108,10 +112,19 @@ class _HomePage extends State<HomePage>{
                         pagination: SwiperPagination(), //指示器
                       ),
                     ),
+                    //
+                   
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                      child:Container(
+                        child: LocalNav(localNavList: localNavList,),
+                      ),
+                    ),
                     Container(
                       height: 800,
                       child: ListTile(title: Text(resultString),),
-                    )
+                    ),
+
 
                   ],
                 ),
