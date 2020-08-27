@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterxiechengtrip/Model/grid_nav_model.dart';
 import 'package:flutterxiechengtrip/Model/local_navlist_model.dart';
+import 'package:flutterxiechengtrip/Widget/webview.dart';
 
 class LocalNav extends StatelessWidget {
 
@@ -42,6 +43,9 @@ class LocalNav extends StatelessWidget {
   Widget _item(BuildContext context, CommonModel model) {
     return GestureDetector(
       onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>
+          WebView(url: model.url,statusBarColor: model.statusBarColor,hideAppBar: model.hideAppBar,)
+        ));
         print("点击跳转");
       },
       child: Column(

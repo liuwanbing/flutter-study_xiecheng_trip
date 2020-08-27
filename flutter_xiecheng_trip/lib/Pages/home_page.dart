@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutterxiechengtrip/Dao/home_dao.dart';
+import 'package:flutterxiechengtrip/Model/grid_nav_model.dart';
 import 'dart:convert';
 
 import 'package:flutterxiechengtrip/Model/home_model.dart';
@@ -26,6 +27,7 @@ class _HomePage extends State<HomePage>{
   double appBarAlpha = 0;
   String resultString = "";
   List<CommonModel> localNavList = [];
+  GridNavModel gridNavModel;
 
   @override
   initState(){
@@ -68,6 +70,7 @@ class _HomePage extends State<HomePage>{
       HomeModel model = await HomeDao.fetch();
       setState(() {
         localNavList = model.localNavList;
+        gridNavModel = model.gridNav;
       });
     }catch (e){
       print(e);
@@ -112,19 +115,18 @@ class _HomePage extends State<HomePage>{
                         pagination: SwiperPagination(), //指示器
                       ),
                     ),
-                    //
-                   
+                    //球区
                     Padding(
                       padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                       child:Container(
                         child: LocalNav(localNavList: localNavList,),
                       ),
                     ),
-                    Container(
-                      height: 800,
-                      child: ListTile(title: Text(resultString),),
+                    //酒店 机票，旅行
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                      child: GridNav(gridNavModel: gridNavModel,),
                     ),
-
 
                   ],
                 ),
