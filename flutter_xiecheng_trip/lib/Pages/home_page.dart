@@ -8,6 +8,7 @@ import 'package:flutterxiechengtrip/Model/home_model.dart';
 import 'package:flutterxiechengtrip/Model/local_navlist_model.dart';
 import 'package:flutterxiechengtrip/Widget/grid_nav.dart';
 import 'package:flutterxiechengtrip/Widget/local_nav.dart';
+import 'package:flutterxiechengtrip/Widget/sub_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;//滑动最大高度，超出部分直接设置全透明
 
@@ -28,6 +29,7 @@ class _HomePage extends State<HomePage>{
   String resultString = "";
   List<CommonModel> localNavList = [];
   GridNavModel gridNavModel;
+  List<CommonModel> subNavList = [];
 
   @override
   initState(){
@@ -71,6 +73,7 @@ class _HomePage extends State<HomePage>{
       setState(() {
         localNavList = model.localNavList;
         gridNavModel = model.gridNav;
+        subNavList = model.subNavList;
       });
     }catch (e){
       print(e);
@@ -104,6 +107,9 @@ class _HomePage extends State<HomePage>{
                     Container(
                       height: 160,
                       child: Swiper(
+                        onTap: (index){
+
+                        },
                         itemCount: _imageUrls.length,
                         autoplay: true,
                         itemBuilder: (BuildContext context, int index) {
@@ -126,6 +132,11 @@ class _HomePage extends State<HomePage>{
                     Padding(
                       padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
                       child: GridNav(gridNavModel: gridNavModel,),
+                    ),
+                    //酒店 机票，旅行
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                      child:  SubNav(subNavList: subNavList,),
                     ),
 
                   ],

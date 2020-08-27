@@ -33,18 +33,23 @@ class GridNav extends StatelessWidget {
   );
   }
 
+  //返回三列数据
   _gridNavItems(BuildContext context){
     List<Widget> items = [];
     if (gridNavModel == null)return items;
+    //酒店
     if(gridNavModel.hotel != null){
       items.add(_gridNavItem(context,gridNavModel.hotel,true));
     }
+    //机票
     if(gridNavModel.flight != null){
       items.add(_gridNavItem(context,gridNavModel.flight,false));
     }
+    //旅行
     if(gridNavModel.travel != null){
       items.add(_gridNavItem(context,gridNavModel.travel,false));
     }
+    //返回一个weidget数组
     return items;
   }
 
@@ -55,10 +60,11 @@ class GridNav extends StatelessWidget {
     items.add(_doubleItem(context, gridNavItem.item1, gridNavItem.item2));
     items.add(_doubleItem(context, gridNavItem.item3, gridNavItem.item4));
     List<Widget>expandItems = [];
+    //遍历widget数组， 用expand 来撑满整个widget
     items.forEach((item){
        expandItems.add(Expanded(child: item,flex: 1,));
     });
-    //渐变颜色
+    //渐变颜色,线性渐变
     Color startColor = Color(int.parse('0xff'+gridNavItem.startColor));
     Color endColor = Color(int.parse('0xff'+gridNavItem.endColor));
 
@@ -76,6 +82,7 @@ class GridNav extends StatelessWidget {
     );
   }
 
+  //左边大widget
   _mainItem(BuildContext context,CommonModel commonModel){
     return _wrapGesture(context, Stack(
       alignment: AlignmentDirectional.topCenter,
@@ -127,6 +134,7 @@ class GridNav extends StatelessWidget {
     );
   }
 
+  //封装Gestrue widget
   _wrapGesture(BuildContext context,Widget widget,CommonModel model){
     return GestureDetector(
         onTap: (){
@@ -137,19 +145,5 @@ class GridNav extends StatelessWidget {
       child: widget,
     );
   }
-  _rigthWidget(BuildContext context){
-    return Column(
-        children: <Widget>[
-          _topWidget(context),
-         _bottomWidget(),
-    ],
-    );
-  }
 
-  _topWidget(BuildContext context){
-    return Container();
-  }
-  _bottomWidget(){
-    return Container();
-  }
 }
