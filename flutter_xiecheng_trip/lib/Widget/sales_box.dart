@@ -88,8 +88,8 @@ class SalesBox extends StatelessWidget {
     );
   }
 
-  Widget _item(BuildContext context, CommonModel model, bool big, bool left,
-      bool last) {
+  Widget _item(BuildContext context, CommonModel model,  bool left,
+      bool last,bool big) {
     BorderSide borderSide = BorderSide(width: 0.8, color: Color(0xfff2f2f2));
     return GestureDetector(
         onTap: () {
