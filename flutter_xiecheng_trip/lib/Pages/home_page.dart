@@ -6,8 +6,10 @@ import 'dart:convert';
 
 import 'package:flutterxiechengtrip/Model/home_model.dart';
 import 'package:flutterxiechengtrip/Model/local_navlist_model.dart';
+import 'package:flutterxiechengtrip/Model/sales_box_model.dart';
 import 'package:flutterxiechengtrip/Widget/grid_nav.dart';
 import 'package:flutterxiechengtrip/Widget/local_nav.dart';
+import 'package:flutterxiechengtrip/Widget/sales_box.dart';
 import 'package:flutterxiechengtrip/Widget/sub_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;//滑动最大高度，超出部分直接设置全透明
@@ -28,8 +30,9 @@ class _HomePage extends State<HomePage>{
   double appBarAlpha = 0;
   String resultString = "";
   List<CommonModel> localNavList = [];
-  GridNavModel gridNavModel;
   List<CommonModel> subNavList = [];
+  GridNavModel gridNavModel;
+  SalesBoxModel salesBoxModel;
 
   @override
   initState(){
@@ -74,6 +77,7 @@ class _HomePage extends State<HomePage>{
         localNavList = model.localNavList;
         gridNavModel = model.gridNav;
         subNavList = model.subNavList;
+        salesBoxModel = model.salesBox;
       });
     }catch (e){
       print(e);
@@ -138,7 +142,11 @@ class _HomePage extends State<HomePage>{
                       padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
                       child:  SubNav(subNavList: subNavList,),
                     ),
-
+                    //更多福利
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                      child:  SalesBox(salesBox: salesBoxModel,),
+                    ),
                   ],
                 ),
 
