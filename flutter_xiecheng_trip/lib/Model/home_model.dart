@@ -36,16 +36,6 @@ class HomeModel {
 
   }
 
-  Map<dynamic,dynamic> toJson(){
-    return {
-      config :config,
-      localNavList:localNavList,
-      bannerList:bannerList,
-      subNavList:subNavList,
-      gridNav:gridNav,
-      salesBox:salesBox,
-    };
-  }
 
   Map<String,dynamic>toJson(){
     return{

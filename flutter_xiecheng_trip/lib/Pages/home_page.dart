@@ -73,7 +73,7 @@ class _HomePage extends State<HomePage>{
 //
 //  }
 
-//  第二种
+//  第二种 //获取所有数据，转模型
   Future<Null> _handleRefresh() async{
     try{
       HomeModel model = await HomeDao.fetch();
@@ -96,36 +96,43 @@ class _HomePage extends State<HomePage>{
 
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xfff2f2fa),
-      body: LoadingContainer(isLoading:_loading,child: Stack(
-        children: <Widget>[
-          MediaQuery.removePadding(
-              removeTop: true,
-              context: context,
-              //监听listView滚动 NotificationListener
-              child: RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: (ScrollNotification notification){
-                    if(notification is ScrollUpdateNotification && notification.depth == 0){
-                      _onScroll(notification.metrics.pixels);
-                    }
-                    return true;
-                  },
-                  child: _ListView(),
-                ),
-              )
-          ),
-          _appBar(),
-        ],
-      ),)
 
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+        backgroundColor: Color(0xfff2f2f2),
+        //LoadingController 添加加载数据视图旋转动画
+        body: LoadingContainer(
+          isLoading: _loading,
+          child: Stack(
+            children: <Widget>[
+              //改变某个widget 的透明度，就用Opacity包裹它
+              _appBar(),
+              //MediaQuery.removePadding 去除导航栏顶部自带的距离空隙
+              MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  //包装一层下拉刷新
+                  child: RefreshIndicator(
+                    onRefresh: _handleRefresh,
+                    child: NotificationListener( //监听ListView 滚动
+                      onNotification: (scrollNotification){
+                        //判断notificaton 是滚动的时候，并且监听的是ListView包裹的第0个元素scrollNotification.depth==0
+                        if(scrollNotification is ScrollUpdateNotification && scrollNotification.depth == 0){
+                          _onScroll(scrollNotification.metrics.pixels);//调用滚动方法，传offset 为参数
+                        }
+                        return;
+                      },
+                      child: _listView(),
+                    ),
+                  )
+              ),
+            ],
+          ),)
     );
   }
 
-  Widget _ListView(){
+  Widget _listView(){
     return ListView(
       children: <Widget>[
         //轮播图
