@@ -15,15 +15,13 @@ class SubNav extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      
-      decoration: BoxDecoration(
+        decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Padding(padding: EdgeInsets.all(7),
         child: _items(context),
       ),
-
     );
   }
 
@@ -46,7 +44,6 @@ class SubNav extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween, //排列方式
             children: items.sublist(separete,items.length),
           ),
-
         )
       ],
     );

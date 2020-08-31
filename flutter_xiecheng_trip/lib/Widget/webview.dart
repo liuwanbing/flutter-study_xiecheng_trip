@@ -7,6 +7,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 const CATCH_URLS = ['m.ctrip.com/', 'm.ctrip.com/html5/', 'm.ctrip.com/html5'];
 
 
+// ignore: must_be_immutable
 class WebView extends StatefulWidget {
 
   String url;
@@ -41,9 +42,7 @@ class _WebViewState extends State<WebView> {
     super.initState();
     //防止页面重新打开
     webViewReference.close();
-    _onUrlChanged = webViewReference.onUrlChanged.listen((String url) {
-
-    });
+    _onUrlChanged = webViewReference.onUrlChanged.listen((String url) {});
     _onStateChanged =
         webViewReference.onStateChanged.listen((WebViewStateChanged state) {
           switch (state.type) {
@@ -176,10 +175,6 @@ class _WebViewState extends State<WebView> {
         ),
       ),
     );
-  }
-
-  _test(){
-    return Container();
   }
 
 }

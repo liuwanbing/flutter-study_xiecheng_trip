@@ -114,7 +114,7 @@ class _HomePage extends State<HomePage>{
                     }
                     return true;
                   },
-                  child: _ListView(),
+                  child: _listView(),
                 ),
               )
           ),
@@ -125,7 +125,7 @@ class _HomePage extends State<HomePage>{
     );
   }
 
-  Widget _ListView(){
+  Widget _listView(){
     return ListView(
       children: <Widget>[
         //轮播图

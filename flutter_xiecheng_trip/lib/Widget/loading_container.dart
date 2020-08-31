@@ -7,6 +7,7 @@ class LoadingContainer extends StatelessWidget{
   final Widget child;//具体呈现的内容
   final isLoading;//是否正在加载
   final cover;//是否放在child之上
+  // ignore: non_constant_identifier_names
   const LoadingContainer({Key,key,@required this.child, @required this.isLoading, this.cover = false}):super(key:key);
 
   @override

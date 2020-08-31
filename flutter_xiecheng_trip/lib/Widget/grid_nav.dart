@@ -26,7 +26,7 @@ class GridNav extends StatelessWidget {
   return PhysicalModel(
     color: Colors.transparent,
     borderRadius: BorderRadius.circular(6),
-    clipBehavior: Clip.antiAlias,//是否裁切
+    clipBehavior: Clip.antiAlias,//裁切
     child: Column(
       children: _gridNavItems(context),
     ),
@@ -134,7 +134,7 @@ class GridNav extends StatelessWidget {
     );
   }
 
-  //封装Gestrue widget
+  //封装gestrue widget
   _wrapGesture(BuildContext context,Widget widget,CommonModel model){
     return GestureDetector(
         onTap: (){
